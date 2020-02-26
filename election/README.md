@@ -1,0 +1,2 @@
+- https://github.com/cgarrard/osgeopy-data
+- https://www.baruch.cuny.edu/confluence/display/geoportal/US+Presidential+Election+County+Results
