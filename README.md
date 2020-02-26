@@ -34,6 +34,8 @@ acq_date,n
 
 ### Make a map of votes
 
+![](https://raw.githubusercontent.com/chart-code/mapshaper-cookbook/master/election/map.svg)
+
 From Mattew Bloch's [2017 NACIS](https://www.youtube.com/watch?v=X-CGAS4YaPA) workshop.
 
 ```bash
