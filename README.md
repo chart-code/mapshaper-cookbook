@@ -2,6 +2,34 @@
 
 [blocks](https://bost.ocks.org/mike/example/), but for [mapshaper](https://mapshaper.org/)
 
+### Make a map of votes
+
+![map](election/map.svg)
+
+From Mattew Bloch's [2017 NACIS](https://www.youtube.com/watch?v=X-CGAS4YaPA) workshop.
+
+```bash
+mapshaper election/countyp010.shp name=counties \
+  -filter 'STATE_FIPS < 72' \
+  -filter 'COUNTY != ""' \
+  -dissolve FIPS copy-fields=STATE \
+  -proj albersusa \
+  -points inner + name=points \
+  -i election/2012-president-general-counties.csv string-fields=fips name=data \
+  -filter-fields fips,obama,romney \
+  -each 'margin = obama - romney' \
+  -each 'absmargin = Math.abs(margin)' \
+  -join target=points data keys=FIPS,fips \
+  -sort absmargin descending \
+  -svg-style r='Math.sqrt(absmargin) * 0.02' \
+  -svg-style opacity=0.5 fill='margin > 0 ? "#0061aa" : "#cc0000"' \
+  -lines STATE target=counties \
+  -svg-style stroke="#ddd" where='TYPE == "inner"' \
+  -svg-style stroke="#777" where='TYPE == "outer"' \
+  -svg-style stroke="#999" where='TYPE == "STATE"' \
+  -o election/map.svg target=counties,points
+```
+
 ### Clip points in a CSV with a shapefile
 
 This take a list [fires detected in Australia](https://blocks.roadtolarissa.com/1wheel/46874895034f5bded13c97097bf25a83), clips them to New South Wales and counts how many occur each day. 
@@ -30,35 +58,6 @@ acq_date,n
 2020-01-01,3686
 2020-01-02,4389
 2020-01-03,4257
-```
-
-### Make a map of votes
-
-![map](election/map.svg)
-
-From Mattew Bloch's [2017 NACIS](https://www.youtube.com/watch?v=X-CGAS4YaPA) workshop.
-
-```bash
-mapshaper election/countyp010.shp name=counties \
-  -filter 'STATE_FIPS < 72' \
-  -filter 'COUNTY != ""' \
-  -dissolve FIPS copy-fields=STATE \
-  -simplify 2% \
-  -proj albersusa \
-  -points inner + name=points \
-  -i election/2012-president-general-counties.csv string-fields=fips name=data \
-  -filter-fields fips,obama,romney \
-  -each 'margin = obama - romney' \
-  -each 'absmargin = Math.abs(margin)' \
-  -join target=points data keys=FIPS,fips \
-  -sort absmargin descending \
-  -svg-style r='Math.sqrt(absmargin) * 0.02' \
-  -svg-style opacity=0.5 fill='margin > 0 ? "#0061aa" : "#cc0000"' \
-  -lines STATE target=counties \
-  -svg-style stroke="#ddd" where='TYPE == "inner"' \
-  -svg-style stroke="#777" where='TYPE == "outer"' \
-  -svg-style stroke="#999" where='TYPE == "STATE"' \
-  -o election/map.svg target=counties,points
 ```
 
 ### More reading
