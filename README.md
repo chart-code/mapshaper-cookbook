@@ -6,7 +6,7 @@
 
 ![map](election/map.svg)
 
-From Mattew Bloch's [2017 NACIS](https://www.youtube.com/watch?v=X-CGAS4YaPA) workshop.
+From Matthew Bloch's [2017 NACIS](https://www.youtube.com/watch?v=X-CGAS4YaPA) workshop.
 
 ```bash
 mapshaper election/countyp010.shp name=counties \
